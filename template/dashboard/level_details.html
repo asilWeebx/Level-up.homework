@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Level Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Level {{ level }} Units</h2>
+    <h2>Level: {{ level.name }}</h2>
+
+    {% for unit, details in unit_details.items %}
+        <h3>{{ unit.name }}</h3>
+        <p>Score: {{ details.result.score }} out of {{ details.result.unit.question_set.count }}</p>
+        
+        <!-- Display questions -->
+        <ul>
+            {% for question in details.questions %}
+                <li>
+                    {{ question.text }} 
+                    {% if question.correct_answer == question.useranswer.answer %}
+                        <span class="text-success">Correct</span>
+                    {% else %}
+                        <span class="text-danger">Incorrect</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+    
+</div>
+{% endblock %}

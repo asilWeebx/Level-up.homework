@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Question Details</h1>
+
+    <div class="row justify-content-center">
+        <!-- Unit and Student Info Card -->
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="card shadow-lg">
+                <div class="card-header bg-dark text-white text-center">
+                    <h4>Unit: {{ unit.title }}</h4>
+                    <h5>Student: {{ student.user.username }}</h5>
+                </div>
+                <div class="card-body">
+
+                    <!-- Question with Image if Available -->
+                    <div class="mb-4">
+                        {% if question.has_image %}
+                            <img src="{{ question.image.url }}" alt="Question Image" class="img-fluid rounded mb-3">
+                            <p class="text-center"><strong>{{ question.question_text }}</strong></p>
+                        {% else %}
+                            <p><strong>{{ question.question_text }}</strong></p>
+                        {% endif %}
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Your Answer -->
+                    <div class="mb-4">
+                        <strong>Student Answer:</strong>
+                        <p class="text-muted">
+                            {% if user_answer %}
+                                <span class="badge bg-info">{{ user_answer.answer }}</span>
+                            {% else %}
+                                <span class="badge bg-warning">No Answer Provided</span>
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <!-- Correct Answer -->
+                    <div class="mb-4">
+                        <strong>Correct Answer:</strong>
+                        <p class="text-muted">
+                            <span class="badge bg-success">{{ question.correct_answer }}</span>
+                        </p>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Answer Status -->
+                    <div class="mb-4 text-center">
+                        {% if user_answer and user_answer.correct %}
+                            <span class="badge bg-success p-2 fs-5">Student answer is correct!</span>
+                        {% else %}
+                            <span class="badge bg-danger p-2 fs-5">Student answer is incorrect!</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Back Button -->
+                    <div class="d-flex justify-content-center mt-4">
+                        <a href="{% url 'view_unit_questions' student.id unit.id %}" class="btn btn-secondary btn-lg">Back to Questions</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

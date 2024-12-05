@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">{{ student.user.first_name }} {{ student.user.last_name }} - Level: {{ level.title }}</h1>
+    <div class="list-group">
+        {% for unit_result in unit_results %}
+        <a href="{% url 'view_unit_questions'  student.id unit_result.unit.id%}" 
+           class="list-group-item list-group-item-action">
+            <strong>{{ unit_result.unit.title }}</strong> 
+            <span class="badge bg-success ms-2">Score: {{ unit_result.result.score }}</span>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

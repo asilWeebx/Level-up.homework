@@ -1,0 +1,333 @@
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% load static%}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<!-- Coding by CodingLab | www.codinglabweb.com-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<title> Responsive Login and Signup Form </title>-->
+
+    <!-- CSS -->
+  <link rel="icon" href="{% static 'assets/levleup.png' %}" type="image/gif"/>
+    <title>Registration</title>
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <style>/* Google Fonts - Poppins */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+     body{
+        background: white;
+     }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+        height: 105vh;
+        width: 100rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        column-gap: 30px;
+    }
+
+    .form {
+        position: absolute;
+        max-width: 430px;
+        width: 100%;
+        padding: 30px;
+        border-radius: 6px;
+        background: #FFF;
+    }
+
+    .form.signup {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .forms.show-signup .form.signup {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .forms.show-signup .form.login {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    header {
+        font-size: 28px;
+        font-weight: 600;
+        color: #232836;
+        text-align: center;
+    }
+
+    form {
+        margin-top: 30px;
+    }
+
+    .form .field {
+        position: relative;
+        height: 50px;
+        width: 100%;
+        margin-top: 20px;
+        border-radius: 6px;
+    }
+
+    .field input,
+    .field button {
+        height: 100%;
+        width: 100%;
+        border: none;
+        font-size: 16px;
+        font-weight: 400;
+        border-radius: 6px;
+    }
+
+    .field input {
+        outline: none;
+        padding: 0 15px;
+        border: 1px solid #CACACA;
+    }
+
+    .field input:focus {
+        border-bottom-width: 2px;
+    }
+
+    .eye-icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: #8b8b8b;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    .field button {
+        color: #fff;
+        background-color: #0171d3;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .field button:hover {
+        background-color: #016dcb;
+    }
+
+    .form-link {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .form-link span,
+    .form-link a {
+        font-size: 14px;
+        font-weight: 400;
+        color: #232836;
+    }
+
+    .form a {
+        color: #0171d3;
+        text-decoration: none;
+    }
+
+    .form-content a:hover {
+        text-decoration: underline;
+    }
+
+    .line {
+        position: relative;
+        height: 1px;
+        width: 100%;
+        margin: 36px 0;
+        background-color: #d4d4d4;
+    }
+
+    .line::before {
+        content: 'Or';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #FFF;
+        color: #8b8b8b;
+        padding: 0 15px;
+    }
+
+    .media-options a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    a.facebook {
+        color: #fff;
+        background-color: #4267b2;
+    }
+
+    a.facebook .facebook-icon {
+        height: 28px;
+        width: 28px;
+        color: #0171d3;
+        font-size: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+    }
+
+    .facebook-icon,
+    img.google-img {
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+    }
+
+    img.google-img {
+        height: 20px;
+        width: 20px;
+        object-fit: cover;
+    }
+
+    a.google {
+        border: 1px solid #CACACA;
+    }
+
+    a.google span {
+        font-weight: 500;
+        opacity: 0.6;
+        color: #232836;
+    }
+
+    @media screen and (max-width: 400px) {
+        .form {
+            padding: 20px 10px;
+        }
+
+    }
+    footer {
+    background-color: #222;
+    color: #fff;
+    font-size: 14px;
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 999;
+}
+
+footer p {
+    margin: 10px 0;
+}
+
+footer i {
+    color: red;
+}
+
+footer a {
+    color: #3c97bf;
+    text-decoration: none;
+}
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+{% if user.is_authenticated %}
+You are authenticated as {{user.username}}
+salom
+<a href="{% url 'logout' %}">LOGOUT</a>
+{% else %}
+{% endif %}
+<nav class="navbar navbar-expand-lg navbar bg">
+    <a class="navbar-brand" href="#" style="display: block;
+    margin-left: auto
+    ;margin-right: auto;margin-top: 4rem;">  <img style="width: 100px;" src="{% static 'assets/levleup.png'%}" alt=""></a>
+  </nav>
+<section style="background: white;margin-top: -1rem;" class="container forms">
+    <div class="form login">
+        <div class="form-content">
+            <header>Sign in</header>
+            <form action="#" method="post">{% csrf_token %}
+                 <div class="">
+                 <!-- Non-field errors (Umumiy xatolar) -->
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+            {{ error }}
+        {% endfor %}
+    </div>
+{% endif %}
+                    <label for="username">Username</label>
+                    {{ form.username|add_class:"form-control" }}
+                    {% if form.username.errors %}
+                    <div class="text-danger">
+                        {% for error in form.username.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="first_name">First name</label>
+                    {{ form.first_name|add_class:"form-control" }}
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last name</label>
+                    {{ form.last_name|add_class:"form-control" }}
+                </div>
+                <div class="form-group">
+                    <label for="password1">Password</label>
+                    {{ form.password1|add_class:"form-control" }}
+                    {% if form.password1.errors %}
+                    <div class="text-danger">
+                        {% for error in form.password1.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="password2">Password confirm</label>
+                    {{ form.password2|add_class:"form-control" }}
+                    {% if form.password2.errors %}
+                    <div class="text-danger">
+                        {% for error in form.password2.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="level">Level</label>
+                    {{ form.level|add_class:"form-control" }}
+                </div>
+            </div>
+                <div style="margin-top: 2rem" class="field button-field">
+                    <button style="background-color: #fac000;" type="submit">Sign up</button>
+                </div>
+            </form>
+            <div class="form-link">
+                <span><a href="{% url 'login' %}" style="color: #fac000;" class="link login-link">Sign in</a></span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- JavaScript -->
+<!--<script src="js/script.js"></script>-->
+</body>
+</html>

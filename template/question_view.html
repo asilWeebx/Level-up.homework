@@ -1,0 +1,46 @@
+<!-- question_view.html -->
+<h1>{{ question.question_text }}</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <label>
+            <input type="radio" name="answer" value="A">
+            {{ question.option_a }}
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="radio" name="answer" value="B">
+            {{ question.option_b }}
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="radio" name="answer" value="C">
+            {{ question.option_c }}
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="radio" name="answer" value="D">
+            {{ question.option_d }}
+        </label>
+    </div>
+    <button type="submit">Submit Answer</button>
+</form>
+
+<script>
+    // Timer logic (30 seconds countdown)
+    var timer = 30;
+    var countdown = setInterval(function() {
+        timer--;
+        document.getElementById('timer').innerHTML = timer + " seconds remaining";
+        
+        if (timer <= 0) {
+            clearInterval(countdown);
+            document.forms[0].submit();  // Auto-submit after time expires
+        }
+    }, 1000);
+</script>
+<p id="timer">30 seconds remaining</p>

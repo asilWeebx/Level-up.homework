@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <!-- Students by Level -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Students by Level</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="studentsByLevelChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Students and Completed Levels -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white text-center">
+                    <h4>Student Statistics</h4>
+                </div>
+                <div class="card-body">
+                    <h5>Total Students: {{ total_students }}</h5>
+                    <h5>Students with Completed Levels: {{ completed_students }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('studentsByLevelChart').getContext('2d');
+        const studentsByLevelChart = new Chart(ctx, {
+            type: 'bar',  // Bar chart
+            data: {
+                labels: ["Beginner", "Elementary", "Intermediate", "Advanced"],  // X-axes
+                datasets: [{
+                    label: 'Number of Students by Level',
+                    data: [{{ beginner_count }}, {{ elementary_count }}, {{ intermediate_count }}, {{ advanced_count }}],  // Y-axes
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

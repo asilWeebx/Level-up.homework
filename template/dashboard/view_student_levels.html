@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">{{ student.user.first_name }} {{ student.user.last_name }} - Completed Levels</h1>
+    {% if results %}
+        <div class="list-group">
+            {% for result in results %}
+            <a href="{% url 'view_level_units'  student.id result.id%}" 
+               class="list-group-item list-group-item-action">
+                <strong>{{ result.title }}</strong>  <!-- Daraja nomi -->
+            </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-danger">This student has not completed any levels yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

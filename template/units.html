@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Units{% endblock %}
+
+{% block content %}
+    <h2>Units for Level: {{ level.title }}</h2>
+    <ul>
+        {% for unit in units %}
+            <li><a href="{% url 'unit_detail' unit.id %}">{{ unit.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

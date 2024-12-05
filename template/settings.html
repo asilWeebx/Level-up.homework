@@ -1,0 +1,218 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foydalanuvchi Sozlamalari</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+              /* Navbar dizayni */
+              .navbar {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand img {
+            height: 40px;
+        }
+        .coins {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .coin {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .coin img {
+            height: 20px;
+            width: 20px;
+        }
+        /* Sidebar dizayni */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            right: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #f8f9fa;
+            box-shadow: -2px 0 4px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            transition: right 0.3s ease;
+            z-index: 1000;
+        }
+        #sidebar.show {
+            right: 0;
+        }
+        #sidebar .close-btn {
+            font-size: 24px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        #sidebar ul li {
+            padding: 10px 0;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #343a40;
+            color: white;
+            display: flex;
+            z-index: 11111;
+            flex-direction: column;
+        }
+
+      
+        body {
+            background-color: #f9f9f9;
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control:focus {
+            border-color: #fac000;
+            box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+        }
+
+        .btn-primary {
+            background-color: #fac000;
+            border-color: #fac000;
+        }
+
+        .btn-primary:hover {
+            background-color: #fac000;
+            border-color: #fac000;
+        }
+    </style>
+</head>
+
+<body>
+ <!-- Navbar -->
+ <nav class="navbar">
+    <a class="navbar-brand" href="#">
+        <img style="width: 150px;height:75px;" src="{% static 'assets/levelup.png' %}" alt="Logo"> <!-- Logo tasviringiz joylashgan yo'lni qo'shing -->
+    </a>
+    <div class="coins ml-auto">
+
+        <button class="btn btn-light ml-3" id="menu-button">≡</button>
+    </div>
+</nav>
+
+<!-- Sidebar Menu -->
+<!-- Sidebar Menu -->
+<div id="sidebar">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <!-- User Icon va Foydalanuvchi Ismi -->
+        <div class="d-flex align-items-center">
+            <img src="{% static 'assets/images/user.png' %}" alt="User Icon" 
+                 style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+            <span style="font-size: 16px; font-weight: bold;">{{ user.first_name }} {{user.last_name|slice:4}}..</span>
+        </div>
+        <!-- Yopish Tugmasi -->
+        <div class="close-btn" style="font-size: 24px; cursor: pointer;">&times;</div>
+    </div>
+    <ul>
+        <li><a href="{% url 'home'  %}">Main menu</a></li>
+        <li><a href="{% url 'my_results' %}">My score</a></li>
+        <li><a href="{% url 'rewards' %}">Rewards</a></li>
+        <li><a href="{% url 'my_rewards' %}">My rewards</a></li>
+        <li><a href="{% url 'update_settings' %}">Settings</a></li>
+        <li><a href="{% url 'logout'%}">Logout</a></li>
+    </ul>
+</div>
+    
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="container mt-3">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="card p-4">
+                    <h3 class="text-center mb-4">Foydalanuvchi Sozlamalari</h3>
+                    <form method="POST" action="{% url 'update_settings' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="first_name" class="form-label">Ism</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name"
+                                value="{{ user.first_name }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="last_name" class="form-label">Familiya</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name"
+                                value="{{ user.last_name }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Telefon Raqam</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" value="{{ user.profile.phone }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="l" class="form-label">Level</label>
+                            <input type="text" class="form-control" id="l" name="l" value="{{ user.profile.level }}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Yangi Parol</label>
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">Parolni Tasdiqlang</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">O'zgarishlarni Saqlash</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Bootstrap JS va Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+integrity="sha384-eun6ogMlYwGUsxO/JZDXLWRPssxPXOYn7ptljkjX2Vmt3JK3aT7p5QJGe3mzh7YL" 
+crossorigin="anonymous"></script>
+<script>        let cards = document.querySelectorAll(".locked");
+    cards.forEach(function (card) {
+        let randomColor = colors[Math.floor(Math.random() * colors.length)];
+        card.style.backgroundColor = randomColor;
+    });
+    const menuButton = document.getElementById('menu-button');
+    const sidebar = document.getElementById('sidebar');
+    const closeButton = document.querySelector('#sidebar .close-btn');
+
+    // Sidebarni ochish
+    menuButton.addEventListener('click', () => {
+        sidebar.classList.add('show');
+    });
+
+    // Sidebarni yopish
+    closeButton.addEventListener('click', () => {
+        sidebar.classList.remove('show');
+    });</script>
+</body>
+
+</html>
+
+
